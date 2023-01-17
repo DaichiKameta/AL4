@@ -40,29 +40,31 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 void GameScene::Update()
 {
 	// オブジェクト移動
-	if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
+	if (input->PushKey(DIK_W) || input->PushKey(DIK_S) || input->PushKey(DIK_D) || input->PushKey(DIK_A) || input->PushKey(DIK_Q) || input->PushKey(DIK_E))
 	{
 		// 現在の座標を取得
 		XMFLOAT3 position = object3d->GetPosition();
 
 		// 移動後の座標を計算
-		if (input->PushKey(DIK_UP)) { position.y += 1.0f; }
-		else if (input->PushKey(DIK_DOWN)) { position.y -= 1.0f; }
-		if (input->PushKey(DIK_RIGHT)) { position.x += 1.0f; }
-		else if (input->PushKey(DIK_LEFT)) { position.x -= 1.0f; }
+		if (input->PushKey(DIK_W)) { position.y += 1.0f; }
+		else if (input->PushKey(DIK_S)) { position.y -= 1.0f; }
+		if (input->PushKey(DIK_D)) { position.x += 1.0f; }
+		else if (input->PushKey(DIK_A)) { position.x -= 1.0f; }
+		if(input->PushKey(DIK_Q)){position.z += 1.0;}
+		else if (input->PushKey(DIK_E)) { position.z -= 1.0f; }
 
 		// 座標の変更を反映
 		object3d->SetPosition(position);
 	}
 
 	// カメラ移動
-	if (input->PushKey(DIK_W) || input->PushKey(DIK_S) || input->PushKey(DIK_D) || input->PushKey(DIK_A))
+	/*if (input->PushKey(DIK_W) || input->PushKey(DIK_S) || input->PushKey(DIK_D) || input->PushKey(DIK_A))
 	{
 		if (input->PushKey(DIK_W)) { Object3d::CameraMoveVector({ 0.0f,+1.0f,0.0f }); }
 		else if (input->PushKey(DIK_S)) { Object3d::CameraMoveVector({ 0.0f,-1.0f,0.0f }); }
 		if (input->PushKey(DIK_D)) { Object3d::CameraMoveVector({ +1.0f,0.0f,0.0f }); }
 		else if (input->PushKey(DIK_A)) { Object3d::CameraMoveVector({ -1.0f,0.0f,0.0f }); }
-	}
+	}*/
 
 	object3d->Update();
 }
