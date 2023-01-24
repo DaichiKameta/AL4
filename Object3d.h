@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-#include <Windows.h>
+#include<Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
 #include <DirectXMath.h>
-#include <d3dx12.h>
-#include <string>
+
+#include"Model.h"
 
 /// <summary>
 /// 3Dオブジェクト
@@ -21,49 +21,6 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public: // サブクラス
-	// 頂点データ構造体
-	struct VertexPosNormalUv
-	{
-		XMFLOAT3 pos; // xyz座標
-		XMFLOAT3 normal; // 法線ベクトル
-		XMFLOAT2 uv;  // uv座標
-	};
-
-	// 定数バッファ用データ構造体
-	struct ConstBufferDataB0
-	{
-		//XMFLOAT4 color;	// 色 (RGBA)
-		XMMATRIX mat;	// ３Ｄ変換行列
-	};
-	// 定数バッファ用データ構造体B1
-	struct ConstBufferDataB1
-	{
-		XMFLOAT3 ambient;//アンビエント係数
-		float pad1;//パディング
-		XMFLOAT3 diffuse;//ディフューズ係数
-		float pad2;//パディング
-		XMFLOAT3 specular;//スペキュラー係数
-		float alpha;//アルファ
-	};
-	//マテリアル
-	struct Material
-	{
-		std::string name; //マテリアル名
-		XMFLOAT3 ambient; //アンビエント影響度
-		XMFLOAT3 diffuse; //ディフューズ影響度
-		XMFLOAT3 specular; //スペキュラー影響度
-		float alpha; //アルファ
-		std::string textureFilename; //テクスチャファイル名
-		//コンストラクタ
-		Material() {
-			ambient = { 0.3f, 0.3f, 0.3f };
-			diffuse = { 0.0f, 0.0f, 0.0f };
-			specular = { 0.0f, 0.0f, 0.0f };
-			alpha = 1.0f;
-		}
-	};
-
 private: // 定数
 	static const int division = 50;					// 分割数
 	static const float radius;				// 底面の半径
@@ -72,13 +29,16 @@ private: // 定数
 	static const int vertexCount = planeCount * 3;		// 頂点数
 
 public: // 静的メンバ関数
+
+	static Object3d* Create(Model* model = nullptr);
+
 	/// <summary>
 	/// 静的初期化
 	/// </summary>
 	/// <param name="device">デバイス</param>
 	/// <param name="window_width">画面幅</param>
 	/// <param name="window_height">画面高さ</param>
-	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+	static bool StaticInitialize(ID3D12Device* device, int window_width, int window_height);
 
 	/// <summary>
 	/// 描画前処理
@@ -95,7 +55,7 @@ public: // 静的メンバ関数
 	/// 3Dオブジェクト生成
 	/// </summary>
 	/// <returns></returns>
-	static Object3d* Create();
+	static Object3d* Create(Model* model);
 
 	/// <summary>
 	/// 視点座標の取得
@@ -165,12 +125,12 @@ private: // 静的メンバ変数
 	// インデックスバッファビュー
 	static D3D12_INDEX_BUFFER_VIEW ibView;
 	// 頂点データ配列
-	/*static VertexPosNormalUv vertices[vertexCount];*/
-	static std::vector<VertexPosNormalUv> vertices;
+	//static VertexPosNormalUv vertices[vertexCount];
+	//static std::vector<VertexPosNormalUv> vertices;
 	// 頂点インデックス配列
 	static std::vector<unsigned short> indices;
 	//マテリアル
-	static Material material;
+	//static Material material;
 
 private:// 静的メンバ関数
 	/// <summary>
@@ -209,6 +169,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void SetModel(Model* _model){model = _model;}
+
 	/// <summary>
 	/// 座標の取得
 	/// </summary>
@@ -225,6 +187,8 @@ private: // メンバ変数
 	//ComPtr<ID3D12Resource> constBuff; // 定数バッファ
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	ComPtr<ID3D12Resource> constBuffB1; // 定数バッファ
+
+	Model* model = nullptr;
 	// 色
 	XMFLOAT4 color = { 1,1,1,1 };
 	// ローカルスケール
