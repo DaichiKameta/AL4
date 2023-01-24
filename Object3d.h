@@ -192,25 +192,9 @@ private:// 静的メンバ関数
 	static void InitializeGraphicsPipeline();
 
 	/// <summary>
-	/// テクスチャ読み込み
-	/// </summary>
-	static bool LoadTexture(const std::string& directoryPath, const std::string& filename);
-
-
-	/// <summary>
-	/// モデル作成
-	/// </summary>
-	static void CreateModel();
-
-	/// <summary>
 	/// ビュー行列を更新
 	/// </summary>
 	static void UpdateViewMatrix();
-
-	//summary
-			//マテリアル読み込み
-			//</summary>
-	static void LoadMaterial(const std::string& directoryPath, const std::string& filename);
 
 
 public: // メンバ関数

@@ -463,7 +463,6 @@ void Object3d::LoadMaterial(const std::string& directoryPath, const std::string&
 	file.close();
 }
 
-
 void Object3d::CreateModel()
 {
 	HRESULT result = S_FALSE;
